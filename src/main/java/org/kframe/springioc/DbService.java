@@ -2,6 +2,17 @@ package org.kframe.springioc;
 
 public class DbService implements IDbService {
 
+	private AutowireObject autowireObject;
+	
+	
+	public AutowireObject getAutowireObject() {
+		return autowireObject;
+	}
+
+	public void setAutowireObject(AutowireObject autowireObject) {
+		this.autowireObject = autowireObject;
+	}
+
 	private String name;
 	
 	public String getName() {
