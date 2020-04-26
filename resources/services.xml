@@ -5,6 +5,8 @@
         https://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <!-- services -->
-    <bean id="dbService" class="org.kframe.springioc.DbService"/>
+    <bean id="dbService" class="org.kframe.springioc.DbService" scope="prototype">
+    	<property name="name" value="zhangsan"/>
+    </bean>
     <!-- more bean definitions for services go here -->
 </beans>
