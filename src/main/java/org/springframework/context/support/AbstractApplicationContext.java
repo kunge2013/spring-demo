@@ -526,30 +526,39 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 
 			try {
 				// Allows post-processing of the bean factory in context subclasses.
+				// 允许在上下文子类中对bean工厂进行后处理。
 				postProcessBeanFactory(beanFactory);
 
 				// Invoke factory processors registered as beans in the context.
+				// 调用上下文中注册为bean的工厂处理器。
 				invokeBeanFactoryPostProcessors(beanFactory);
 
 				// Register bean processors that intercept bean creation.
+				//注册拦截bean创建的bean处理器。
 				registerBeanPostProcessors(beanFactory);
 
 				// Initialize message source for this context.
+				//初始化此上下文的消息源。
 				initMessageSource();
 
 				// Initialize event multicaster for this context.
+				//为此上下文初始化事件多主机。
 				initApplicationEventMulticaster();
 
 				// Initialize other special beans in specific context subclasses.
+				//初始化特定上下文子类中的其他特殊bean。
 				onRefresh();
 
 				// Check for listener beans and register them.
+				//检查侦听器bean并注册它们。
 				registerListeners();
 
 				// Instantiate all remaining (non-lazy-init) singletons.
+				//实例化所有剩余的（非延迟初始化）单例。
 				finishBeanFactoryInitialization(beanFactory);
 
 				// Last step: publish corresponding event.
+				//最后一步：发布对应的事件。
 				finishRefresh();
 			}
 
@@ -560,18 +569,22 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 				}
 
 				// Destroy already created singletons to avoid dangling resources.
+				//销毁已经创建的单例以避免资源悬空。
 				destroyBeans();
 
 				// Reset 'active' flag.
+				//重置“活动”标志。
 				cancelRefresh(ex);
 
 				// Propagate exception to caller.
+				//将异常传播到调用方。
 				throw ex;
 			}
 
 			finally {
 				// Reset common introspection caches in Spring's core, since we
 				// might not ever need metadata for singleton beans anymore...
+				// 重置Spring核心中的常见内省缓存，因为
 				resetCommonCaches();
 			}
 		}
@@ -641,15 +654,18 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	/**
 	 * Configure the factory's standard context characteristics,
 	 * such as the context's ClassLoader and post-processors.
+	 * 配置工厂的标准上下文特性，例如上下文的类加载器和后处理器。
 	 * @param beanFactory the BeanFactory to configure
 	 */
 	protected void prepareBeanFactory(ConfigurableListableBeanFactory beanFactory) {
 		// Tell the internal bean factory to use the context's class loader etc.
+		// 告诉内部bean工厂使用上下文的类加载器等。
 		beanFactory.setBeanClassLoader(getClassLoader());
 		beanFactory.setBeanExpressionResolver(new StandardBeanExpressionResolver(beanFactory.getBeanClassLoader()));
 		beanFactory.addPropertyEditorRegistrar(new ResourceEditorRegistrar(this, getEnvironment()));
 
 		// Configure the bean factory with context callbacks.
+		// 使用上下文回调配置bean工厂。
 		beanFactory.addBeanPostProcessor(new ApplicationContextAwareProcessor(this));
 		beanFactory.ignoreDependencyInterface(EnvironmentAware.class);
 		beanFactory.ignoreDependencyInterface(EmbeddedValueResolverAware.class);
@@ -660,15 +676,20 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 
 		// BeanFactory interface not registered as resolvable type in a plain factory.
 		// MessageSource registered (and found for autowiring) as a bean.
+		// BeanFactory接口未在普通工厂中注册为可解析类型。
+		// MessageSource已注册（并为自动连接找到）为bean。
+
 		beanFactory.registerResolvableDependency(BeanFactory.class, beanFactory);
 		beanFactory.registerResolvableDependency(ResourceLoader.class, this);
 		beanFactory.registerResolvableDependency(ApplicationEventPublisher.class, this);
 		beanFactory.registerResolvableDependency(ApplicationContext.class, this);
 
 		// Register early post-processor for detecting inner beans as ApplicationListeners.
+		// 注册早期的后处理器，以便将内部bean检测为ApplicationListeners。
 		beanFactory.addBeanPostProcessor(new ApplicationListenerDetector(this));
 
 		// Detect a LoadTimeWeaver and prepare for weaving, if found.
+		// 检测LoadTimeWeaver并准备编织（如果发现）。
 		if (beanFactory.containsBean(LOAD_TIME_WEAVER_BEAN_NAME)) {
 			beanFactory.addBeanPostProcessor(new LoadTimeWeaverAwareProcessor(beanFactory));
 			// Set a temporary ClassLoader for type matching.
@@ -676,6 +697,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		}
 
 		// Register default environment beans.
+		//注册默认环境bean。
 		if (!beanFactory.containsLocalBean(ENVIRONMENT_BEAN_NAME)) {
 			beanFactory.registerSingleton(ENVIRONMENT_BEAN_NAME, getEnvironment());
 		}
