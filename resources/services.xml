@@ -5,8 +5,10 @@
         https://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<import resource="event.xml"/>
+	
 	<bean id="autowireObject" class="org.kframe.springioc.service.AutowireObject">
 		<property name="name" value="autowireObject 001"/>
+		<property name="dbService" ref="dbService"/>
 	</bean>
 	
     <!-- services -->
