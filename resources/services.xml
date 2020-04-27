@@ -4,14 +4,17 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         https://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="autowireObject" class="org.kframe.springioc.AutowireObject">
+	<import resource="event.xml"/>
+	<bean id="autowireObject" class="org.kframe.springioc.service.AutowireObject">
 		<property name="name" value="autowireObject 001"/>
 	</bean>
 	
     <!-- services -->
-    <bean id="dbService" class="org.kframe.springioc.DbService" scope="prototype">
+    <bean id="dbService" class="org.kframe.springioc.service.DbService" scope="prototype">
     	<property name="name" value="zhangsan"/>
     	<property name="autowireObject" ref="autowireObject"/>
     </bean>
+    
+    
     <!-- more bean definitions for services go here -->
 </beans>
