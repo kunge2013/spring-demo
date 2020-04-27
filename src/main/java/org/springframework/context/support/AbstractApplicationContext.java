@@ -723,6 +723,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	}
 
 	/**
+	 * 实例化并调用所有注册的beanfactorypostprocessorbean，如果给定显式顺序，则遵循显式顺序。必须在单例实例化之前调用。
 	 * Instantiate and invoke all registered BeanFactoryPostProcessor beans,
 	 * respecting explicit order if given.
 	 * <p>Must be called before singleton instantiation.
@@ -739,6 +740,9 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	}
 
 	/**
+	 * 
+	 * 实例化并注册所有beanPostProcessorbean，如果给定显式顺序，则遵循显式顺序。
+	 * 必须在应用程序bean的任何实例化之前调用。
 	 * Instantiate and register all BeanPostProcessor beans,
 	 * respecting explicit order if given.
 	 * <p>Must be called before any instantiation of application beans.
@@ -748,6 +752,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	}
 
 	/**
+	 * 初始化消息源。如果此上下文中未定义父项，则使用父项。
 	 * Initialize the MessageSource.
 	 * Use parent's if none defined in this context.
 	 */
@@ -781,6 +786,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	}
 
 	/**
+	 * 初始化ApplicationEventMulticaster。如果上下文中未定义，则使用SimpleApplicationEventMulticaster。
 	 * Initialize the ApplicationEventMulticaster.
 	 * Uses SimpleApplicationEventMulticaster if none defined in the context.
 	 * @see org.springframework.context.event.SimpleApplicationEventMulticaster
@@ -831,6 +837,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	}
 
 	/**
+	 * 可以重写以添加特定于上下文的刷新工作的模板方法。在初始化特殊bean时调用，然后实例化单例。
 	 * Template method which can be overridden to add context-specific refresh work.
 	 * Called on initialization of special beans, before instantiation of singletons.
 	 * <p>This implementation is empty.
@@ -842,6 +849,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	}
 
 	/**
+	 * 添加将ApplicationListener实现为侦听器的bean。不会影响其他侦听器，这些侦听器可以添加而不是bean。
 	 * Add beans that implement ApplicationListener as listeners.
 	 * Doesn't affect other listeners, which can be added without being beans.
 	 */
@@ -869,6 +877,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	}
 
 	/**
+	 * 完成此上下文的bean工厂的初始化，初始化所有剩余的单例bean。
 	 * Finish the initialization of this context's bean factory,
 	 * initializing all remaining singleton beans.
 	 */
@@ -904,6 +913,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	}
 
 	/**
+	 * 完成此上下文的刷新，调用LifecycleProcessor的onRefresh（）方法并发布org.springframework.context.event.ContextRefreshedEvent。
 	 * Finish the refresh of this context, invoking the LifecycleProcessor's
 	 * onRefresh() method and publishing the
 	 * {@link org.springframework.context.event.ContextRefreshedEvent}.
