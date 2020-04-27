@@ -1,4 +1,4 @@
-package org.kframe.springioc;
+package org.kframe.springioc.service;
 
 public class AutowireObject {
 	
