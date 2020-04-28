@@ -1367,6 +1367,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 	}
 
 	/**
+	 *   使用bean定义中的属性值填充给定BeanWrapper中的bean实例。
 	 * Populate the bean instance in the given BeanWrapper with the property values
 	 * from the bean definition.
 	 * @param beanName the name of the bean
@@ -1449,6 +1450,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		}
 
 		if (pvs != null) {
+			// 应用给定的属性值，将任何运行时引用解析到此bean工厂中的其他bean。必须使用深度复制，因此我们不会永久修改此属性。
 			applyPropertyValues(beanName, mbd, bw, pvs);
 		}
 	}
@@ -1642,6 +1644,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 	}
 
 	/**
+	 * 	 应用给定的属性值，将任何运行时引用解析到此bean工厂中的其他bean。必须使用深度复制，因此我们不会永久修改此属性。
 	 * Apply the given property values, resolving any runtime references
 	 * to other beans in this bean factory. Must use deep copy, so we
 	 * don't permanently modify this property.
