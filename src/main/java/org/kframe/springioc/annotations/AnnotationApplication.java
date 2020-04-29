@@ -19,6 +19,7 @@ public class AnnotationApplication {
 		System.out.println("text >>>>>>" + context.getBean(String.class));
 		System.out.println("text >>>>>>" + context.getBean(String.class));
 		
+		System.out.println("ServiceFactoryBeanTest >>>>>>" + context.getBean(ServiceFactoryBeanTest.class));
 //		System.out.println("==============================================================");
 		//		HashMap<String, Object> map = new HashMap<String, Object>();
 		//		map.put("1", "hehe");
