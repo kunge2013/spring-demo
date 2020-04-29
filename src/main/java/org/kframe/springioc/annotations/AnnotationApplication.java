@@ -7,6 +7,5 @@ public class AnnotationApplication {
 		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext("org.kframe.springioc.annotations");
 		Config config = context.getBean(Config.class);
 		System.out.println(config.toString());
-		
 	}
 }
