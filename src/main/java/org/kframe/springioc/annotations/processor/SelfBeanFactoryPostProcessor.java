@@ -11,6 +11,7 @@ public class SelfBeanFactoryPostProcessor implements BeanFactoryPostProcessor {
 	@Override
 	public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
 		System.out.println(beanFactory);
+		beanFactory.registerSingleton("String", new String("11111"));
 	}
 
 }

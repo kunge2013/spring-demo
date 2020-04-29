@@ -10,7 +10,18 @@ import org.springframework.stereotype.Component;
 @Component
 public class Config {
 
-	private String name = Config.class.toString();
+	public String name = Config.class.toString();
+
+	
+	public String getName() {
+		return name;
+	}
+
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
 
 	@Override
 	public String toString() {
