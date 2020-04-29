@@ -13,12 +13,16 @@ public class AnnotationApplication {
 		Config config = context.getBean(Config.class);
 		System.out.println("==============================================================");
 		FactoryBeanInstance instance = context.getBean(FactoryBeanInstance.class);
+		FactoryBeanInstance instance2 = context.getBean(FactoryBeanInstance.class);
+		System.out.println(instance.hashCode() == instance2.hashCode());
+		System.out.println(instance.getObject().equals(instance.getObject()));
 //		System.out.println("instance >>>>>>" + instance.getObject());
 //		System.out.println("==============================================================");
-		System.out.println("text >>>>>>" + context.getBean(String.class));
-		System.out.println("text >>>>>>" + context.getBean(String.class));
-		System.out.println("text >>>>>>" + context.getBean(String.class));
-		
+//		System.out.println("text >>>>>>" + context.getBean(String.class));
+//		System.out.println("text >>>>>>" + context.getBean(String.class));
+//		System.out.println("text >>>>>>" + context.getBean(String.class));
+//		
+		System.out.println("ServiceFactoryBeanTest >>>>>>" + context.getBean(ServiceFactoryBeanTest.class));
 		System.out.println("ServiceFactoryBeanTest >>>>>>" + context.getBean(ServiceFactoryBeanTest.class));
 //		System.out.println("==============================================================");
 		//		HashMap<String, Object> map = new HashMap<String, Object>();
