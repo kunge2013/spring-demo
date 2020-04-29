@@ -1,6 +1,8 @@
 package org.kframe.springioc.annotations;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+import javax.security.auth.Destroyable;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
@@ -19,6 +21,11 @@ public class Config {
 	@PostConstruct
 	public void post() {
 		System.out.println("Config ...PostConstruct ");
+	}
+	
+	@PreDestroy
+	public void destroy() {
+		System.out.println("Config ...destroy ");
 	}
 	@Bean
 	public ConfigInfo configInfo() {
