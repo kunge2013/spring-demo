@@ -1,6 +1,5 @@
 package org.kframe.springioc.annotations;
 
-import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 public class AnnotationApplication {
