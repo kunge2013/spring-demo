@@ -31,12 +31,12 @@ public class Config {
 	
 	@PostConstruct
 	public void post() {
-		System.out.println("Config ...PostConstruct ");
+//		System.out.println("Config ...PostConstruct ");
 	}
 	
 	@PreDestroy
 	public void destroy() {
-		System.out.println("Config ...destroy ");
+//		System.out.println("Config ...destroy ");
 	}
 	@Bean
 	public ConfigInfo configInfo() {

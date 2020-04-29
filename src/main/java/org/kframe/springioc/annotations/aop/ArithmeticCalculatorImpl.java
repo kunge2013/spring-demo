@@ -1,5 +1,8 @@
 package org.kframe.springioc.annotations.aop;
 
+import org.springframework.stereotype.Service;
+
+@Service
 public class ArithmeticCalculatorImpl implements ArithmeticCalculator {
 
 	@Override
