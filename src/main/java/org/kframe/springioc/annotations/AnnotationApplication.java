@@ -7,8 +7,9 @@ public class AnnotationApplication {
 	private static AnnotationConfigApplicationContext context;
 
 	public static void main(String[] args) throws Exception {
-		
+		System.out.println("=======================begin  AnnotationConfigApplicationContext=======================================");
 		context = new AnnotationConfigApplicationContext("org.kframe.springioc.annotations");
+		System.out.println("=======================end    AnnotationConfigApplicationContext=======================================");
 		Config config = context.getBean(Config.class);
 		System.out.println("==============================================================");
 		FactoryBeanInstance instance = context.getBean(FactoryBeanInstance.class);
@@ -16,7 +17,6 @@ public class AnnotationApplication {
 		System.out.println("==============================================================");
 		System.out.println("text >>>>>>" + context.getBean(String.class));
 		System.out.println("==============================================================");
-		
 		//		HashMap<String, Object> map = new HashMap<String, Object>();
 		//		map.put("1", "hehe");
 		//		context.getBeanFactory().registerSingleton("hello", map);
@@ -24,7 +24,6 @@ public class AnnotationApplication {
 		//		System.out.println(configInfo.toString());
 		//		System.out.println(config.toString());
 		//		System.out.println(context.getBean("hello"));
-		
 	}
 	
 }
