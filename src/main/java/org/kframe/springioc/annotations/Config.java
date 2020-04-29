@@ -1,5 +1,7 @@
 package org.kframe.springioc.annotations;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
@@ -14,6 +16,10 @@ public class Config {
 	}
 	
 	
+	@PostConstruct
+	public void post() {
+		System.out.println("Config ...PostConstruct ");
+	}
 	@Bean
 	public ConfigInfo configInfo() {
 		return new ConfigInfo();
