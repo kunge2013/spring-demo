@@ -1,11 +1,12 @@
 package org.kframe.springioc.annotations;
 
+import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 public class AnnotationApplication {
 	
 	private static AnnotationConfigApplicationContext context;
-
+	
 	public static void main(String[] args) throws Exception {
 		System.out.println("=======================begin  AnnotationConfigApplicationContext=======================================");
 		context = new AnnotationConfigApplicationContext("org.kframe.springioc.annotations");
