@@ -6,13 +6,13 @@
 
 	<!-- <import resource="event.xml"/> -->
 	
-	<bean id="autowireObject" class="org.kframe.springioc.service.AutowireObject">
+	<bean id="autowireObject" class="org.kframe.springioc.service.AutowireObject" lazy-init="true">
 		<property name="name" value="autowireObject 001"/>
 		<property name="dbService" ref="dbService"/>
 	</bean>
 	
     <!-- services -->
-    <bean id="dbService" class="org.kframe.springioc.service.DbService" scope="prototype">
+    <bean id="dbService" class="org.kframe.springioc.service.DbService" scope="prototype" lazy-init="true">
     	<property name="name" value="zhangsan"/>
     	<property name="autowireObject" ref="autowireObject"/>
     </bean>
