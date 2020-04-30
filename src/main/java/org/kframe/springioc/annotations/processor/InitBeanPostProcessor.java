@@ -12,7 +12,7 @@ public class InitBeanPostProcessor implements BeanPostProcessor {
 	public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
 		// TODO Auto-generated method stub
 		System.out.println(" postProcessBeforeInitialization ===" + beanName);
-		if (beanName.equalsIgnoreCase("config")) {
+		if (beanName.equalsIgnoreCase("config") && bean.getClass().isAssignableFrom(Config.class)) {
 			Config conf =  (Config) bean;
 			conf.setName("这是被修改后的名称!!!!!!!!!!");
 			return conf;
@@ -29,5 +29,8 @@ public class InitBeanPostProcessor implements BeanPostProcessor {
 	}
 	
 	
-	
+	public static void main(String[] args) {
+		Config c = new Config();
+		System.out.println(c.getClass().isAssignableFrom(Config.class));
+	}
 }
