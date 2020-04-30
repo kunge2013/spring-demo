@@ -31,7 +31,7 @@ public class Config {
 	
 	@PostConstruct
 	public void post() {
-//		System.out.println("Config ...PostConstruct ");
+		System.out.println("Config ...PostConstruct ");
 	}
 	
 	@PreDestroy

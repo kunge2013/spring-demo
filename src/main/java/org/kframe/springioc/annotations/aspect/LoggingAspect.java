@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
 @Order(2)
 @Component
 @Aspect
-@EnableAspectJAutoProxy//启用切面
+//@EnableAspectJAutoProxy//启用切面
 public class LoggingAspect {
 
 	/*
