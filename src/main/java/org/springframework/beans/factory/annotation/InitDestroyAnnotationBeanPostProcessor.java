@@ -156,6 +156,7 @@ public class InitDestroyAnnotationBeanPostProcessor
 	}
 
 	/**
+	 * 	执行后置处理器
 	 * 	初始化bean的属性
 	 * 
 	 */
