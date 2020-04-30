@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
 @Order(2)
 @Component
 @Aspect
-//@EnableAspectJAutoProxy//启用切面
+@EnableAspectJAutoProxy//启用切面
 public class LoggingAspect {
 
 	/*
@@ -27,6 +27,7 @@ public class LoggingAspect {
 	 */
 	@Pointcut("execution(int org.kframe.springioc.annotations.aop.ArithmeticCalculator.*(..))")
 	public void declareJoinPointExpression() {
+		System.out.println("declareJoinPointExpression");
 	};
 
 	/*
