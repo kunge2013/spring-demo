@@ -96,7 +96,7 @@ public class AnnotationConfigApplicationContext extends GenericApplicationContex
 	 * @param basePackages the packages to scan for component classes
 	 */
 	public AnnotationConfigApplicationContext(String... basePackages) {
-		this();
+		this();//注册beanFactory 的对象解析的后只处理器
 		scan(basePackages);
 		refresh();
 	}
