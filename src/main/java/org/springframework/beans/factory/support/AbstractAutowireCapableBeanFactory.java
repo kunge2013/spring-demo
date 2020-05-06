@@ -409,13 +409,13 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 
 	/**
 	 * 执行后置处理器
+	 * XXX 第七次调用后置处理器  调用的是BeanPostProcessor --> postProcessBeforeInitialization bean初始化方法执行之前执行这个方法
 	 */
 	@Override
 	public Object applyBeanPostProcessorsBeforeInitialization(Object existingBean, String beanName)
 			throws BeansException {
 
 		Object result = existingBean;
-		// TODO 第七次调用后置处理器  调用的是BeanPostProcessor --> postProcessBeforeInitialization bean初始化方法执行之前执行这个方法
 		for (BeanPostProcessor processor : getBeanPostProcessors()) {
 			Object current = processor.postProcessBeforeInitialization(result, beanName);
 			if (current == null) {
@@ -427,15 +427,15 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 	}
 
 	
+	/**
+	 * XXX 第八次调用后置处理器
+	 *	org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#applyBeanPostProcessorsAfterInitialization
+	 *	调用的是BeanPostProcessor --> postProcessAfterInitialization bean初始化之后执行的方法(处理AOP)
+	 */
 	@Override
 	public Object applyBeanPostProcessorsAfterInitialization(Object existingBean, String beanName)
 			throws BeansException {
-
 		Object result = existingBean;
-		/**
-		 * TODO 第八次调用后置处理器
-		 * 调用的是BeanPostProcessor --> postProcessAfterInitialization bean初始化之后执行的方法(处理AOP)
-		 */
 		for (BeanPostProcessor processor : getBeanPostProcessors()) {
 			Object current = processor.postProcessAfterInitialization(result, beanName);
 			if (current == null) {
@@ -446,6 +446,9 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		return result;
 	}
 
+	/**
+	 * XXX 第九次是在销毁bean容器的时候调用的
+	 */
 	@Override
 	public void destroyBean(Object existingBean) {
 		new DisposableBeanAdapter(existingBean, getBeanPostProcessors(), getAccessControlContext()).destroy();
@@ -515,7 +518,13 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 
 		try {
 			// Give BeanPostProcessors a chance to return a proxy instead of the target bean instance.
-			// 给BeanPostProcessors一个返回代理而不是目标bean实例的机会。
+			/**
+			 * XXX 第一次调用 给BeanPostProcessors  
+			 * 当一个bean在实例化之前，判断这个bean要不要产生一些新的对象，InstantiationAwareBeanPostProcessor的postProcessBeforeInstantiation方法可以返回任何类型，如果返回的对象不为null，
+			 * 就调用beanPostProcessor的postProcessAfterInitialization方法；后面的初始化、属性注入、实例化等方法都不会再调用
+			 * 如果返回null，就正常的执行流程
+			 * 在spring AOP当中，spring如果判断当前类100%不需要进行增强(判断当前bean是否是advice、pointcut、advisor、aopInfrastructureBean的子类，如果是，无需增强)，会把这个bean放到一个map中，并将value置为false，那么在后面进行增强的时候，会排除这个map中的bean
+			 */
 			Object bean = resolveBeforeInstantiation(beanName, mbdToUse);
 			if (bean != null) {
 				return bean;
@@ -581,7 +590,6 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		synchronized (mbd.postProcessingLock) {
 			if (!mbd.postProcessed) {
 				try {
-					// TODO 都三次调用后置处理器
 					applyMergedBeanDefinitionPostProcessors(mbd, beanType, beanName);
 				}
 				catch (Throwable ex) {
@@ -601,7 +609,6 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 				logger.trace("Eagerly caching bean '" + beanName +
 						"' to allow for resolving potential circular references");
 			}
-			// TODO 第四次调用  
 			addSingletonFactory(beanName, () -> getEarlyBeanReference(beanName, mbd, bean));
 		}
 
@@ -968,6 +975,10 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 	}
 
 	/**
+	 * 
+	 * XXX 第四次调用后置处理器
+	 * 第四个后置处理器(把创建的对象 放到earlySingletonObjects，解决循环依赖的)，处理循环依赖问题会用到这个后置处理器
+	 * 这里通过后置处理器，暴露出一个ObjectFactory（个人理解是一个bean工厂），可以完成bean的实例化等操作
 	 * Obtain a reference for early access to the specified bean,
 	 * typically for the purpose of resolving a circular reference.
 	 * @param beanName the name of the bean (for error handling purposes)
@@ -1110,6 +1121,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 	protected void applyMergedBeanDefinitionPostProcessors(RootBeanDefinition mbd, Class<?> beanType, String beanName) {
 		for (BeanPostProcessor bp : getBeanPostProcessors()) {
 			if (bp instanceof MergedBeanDefinitionPostProcessor) {
+				// XXX 都三次调用后置处理器 ， 第三次  个后置处理器，这个后置处理器，待学习之后，再补充；在该后置处理器执行时，会
 				MergedBeanDefinitionPostProcessor bdp = (MergedBeanDefinitionPostProcessor) bp;
 				bdp.postProcessMergedBeanDefinition(mbd, beanType, beanName);
 			}
@@ -1161,7 +1173,6 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 	protected Object applyBeanPostProcessorsBeforeInstantiation(Class<?> beanClass, String beanName) {
 		for (BeanPostProcessor bp : getBeanPostProcessors()) {
 			if (bp instanceof InstantiationAwareBeanPostProcessor) {
-				// TODO 第一次调用
 				InstantiationAwareBeanPostProcessor ibp = (InstantiationAwareBeanPostProcessor) bp;
 				Object result = ibp.postProcessBeforeInstantiation(beanClass, beanName);
 				if (result != null) {
@@ -1222,7 +1233,6 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 			}
 		}
 
-		// TODO  第二次调用  该后置处理器推断使用哪个构造函数来初始化bean对象
 		// Candidate constructors for autowiring?
 		Constructor<?>[] ctors = determineConstructorsFromBeanPostProcessors(beanClass, beanName);
 		if (ctors != null || mbd.getResolvedAutowireMode() == AUTOWIRE_CONSTRUCTOR ||
@@ -1293,6 +1303,9 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 	}
 
 	/**
+	 * XXX  第二次调用  该后置处理器推断使用哪个构造函数来初始化bean对象
+	 * 在推断使用哪一个构造函数的时候，会首先判断当前构造函数是否有@Value和@Autowired注解，如果没有，那就校验当前构造方法对应的bean和传来的beanClass是否一样，如果是同一个，就把当前构造函数赋值给defaultConstructor
+	 * 	在第二次调用后置处理器的时候，会返回当前可用的构造函数，由此来决定，使用哪个构造函数来创建bean
 	 * Determine candidate constructors to use for the given bean, checking all registered
 	 * {@link SmartInstantiationAwareBeanPostProcessor SmartInstantiationAwareBeanPostProcessors}.
 	 * @param beanClass the raw class of the bean
@@ -1411,8 +1424,13 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		if (!mbd.isSynthetic() && hasInstantiationAwareBeanPostProcessors()) {
 			for (BeanPostProcessor bp : getBeanPostProcessors()) {
 				if (bp instanceof InstantiationAwareBeanPostProcessor) {
-					// TODO 第五次调用后置处理器   第五个后置处理器(判断是否需要填充属性)
 					InstantiationAwareBeanPostProcessor ibp = (InstantiationAwareBeanPostProcessor) bp;
+					/**
+					 *  XXX 第五次调用后置处理器   第五个后置处理器(判断是否需要填充属性)
+					 *  第五个后置处理器(判断是否需要填充属性)
+					 *  如果我们需要在程序中自己注入属性，可以利用这个点，在这里返回false，那么spring就不会调用下面这个后置处理器来注入属性
+					 */
+					
 					if (!ibp.postProcessAfterInstantiation(bw.getWrappedInstance(), beanName)) {
 						return;
 					}
@@ -1452,7 +1470,9 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 						if (filteredPds == null) {
 							filteredPds = filterPropertyDescriptorsForDependencyCheck(bw, mbd.allowCaching);
 						}
-						// TODO  第六次调用     调用的是InstantiationAwareBeanPostProcessor --> postProcessPropertyValues 第六个(处理类的属性值)
+						/**
+						 *  XXX  第六次调用     调用的是InstantiationAwareBeanPostProcessor --> postProcessPropertyValues 第六个(处理类的属性值)
+						 */
 						pvsToUse = ibp.postProcessPropertyValues(pvs, filteredPds, bw.getWrappedInstance(), beanName);
 						if (pvsToUse == null) {
 							return;
