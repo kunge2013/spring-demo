@@ -180,6 +180,9 @@ public class InitDestroyAnnotationBeanPostProcessor
 		return bean;
 	}
 
+	/**
+	 * TODO 第九次是在销毁bean容器的时候调用的
+	 */
 	@Override
 	public void postProcessBeforeDestruction(Object bean, String beanName) throws BeansException {
 		LifecycleMetadata metadata = findLifecycleMetadata(bean.getClass());

@@ -197,6 +197,11 @@ final class ConfigurationClass {
 		this.importedResources.put(importedResource, readerClass);
 	}
 
+	/**
+	 * 添加后置处理器 注册信息 配置文件
+	 * @param registrar
+	 * @param importingClassMetadata
+	 */
 	public void addImportBeanDefinitionRegistrar(ImportBeanDefinitionRegistrar registrar, AnnotationMetadata importingClassMetadata) {
 		this.importBeanDefinitionRegistrars.put(registrar, importingClassMetadata);
 	}
