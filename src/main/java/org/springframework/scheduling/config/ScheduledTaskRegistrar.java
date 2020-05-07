@@ -405,6 +405,9 @@ public class ScheduledTaskRegistrar implements ScheduledTaskHolder, Initializing
 			scheduledTask = new ScheduledTask(task);
 			newTask = true;
 		}
+		/**
+		 *@describle 添加任务到线程池
+		 */
 		if (this.taskScheduler != null) {
 			scheduledTask.future = this.taskScheduler.schedule(task.getRunnable(), task.getTrigger());
 		}

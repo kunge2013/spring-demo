@@ -333,6 +333,9 @@ public class ScheduledAnnotationBeanPostProcessor
 		return bean;
 	}
 
+	/**
+	 * @describle 查看当前bean 是否用到了 Scheduled 的相关注解，如果用到了就直接创建新的 task ，并根据表达式生成相关的执行时间
+	 */
 	@Override
 	public Object postProcessAfterInitialization(Object bean, String beanName) {
 		if (bean instanceof AopInfrastructureBean || bean instanceof TaskScheduler ||
@@ -344,6 +347,9 @@ public class ScheduledAnnotationBeanPostProcessor
 		Class<?> targetClass = AopProxyUtils.ultimateTargetClass(bean);
 		if (!this.nonAnnotatedClasses.contains(targetClass) &&
 				AnnotationUtils.isCandidateClass(targetClass, Arrays.asList(Scheduled.class, Schedules.class))) {
+			/**
+			 * @describle	获取 当前bean 的方法中所有的Scheduled注解
+			 */
 			Map<Method, Set<Scheduled>> annotatedMethods = MethodIntrospector.selectMethods(targetClass,
 					(MethodIntrospector.MetadataLookup<Set<Scheduled>>) method -> {
 						Set<Scheduled> scheduledMethods = AnnotatedElementUtils.getMergedRepeatableAnnotations(
@@ -357,6 +363,9 @@ public class ScheduledAnnotationBeanPostProcessor
 				}
 			}
 			else {
+				/**
+				 * @describle 解析当前方法转化为 task对象，并放到线程池中 
+				 */
 				// Non-empty set of methods
 				annotatedMethods.forEach((method, scheduledMethods) ->
 						scheduledMethods.forEach(scheduled -> processScheduled(scheduled, method, bean)));
@@ -370,6 +379,8 @@ public class ScheduledAnnotationBeanPostProcessor
 	}
 
 	/**
+	 * 
+	 * @describle 装配定时任务
 	 * Process the given {@code @Scheduled} method declaration on the given bean.
 	 * @param scheduled the @Scheduled annotation
 	 * @param method the method that the annotation has been declared on
@@ -423,6 +434,9 @@ public class ScheduledAnnotationBeanPostProcessor
 						else {
 							timeZone = TimeZone.getDefault();
 						}
+						/**
+						 * @describle 将当前的任务丢到定时线程池中，按照时间进行执行当前的任务
+						 */
 						tasks.add(this.registrar.scheduleCronTask(new CronTask(runnable, new CronTrigger(cron, timeZone))));
 					}
 				}
