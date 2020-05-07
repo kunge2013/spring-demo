@@ -15,6 +15,7 @@ public class AnnotationApplication {
 		Object hash = context.getBean("factoryBeanInstance");
 		System.out.println(o.hashCode() + hash.toString());
 		System.out.println(calc.add(1, 2));
+		Thread.sleep(1000 * 60);
 //		System.out.println("String==== 代码手动注入后的String ：" +  context.getBean("String"));
 //		System.out.println("config==== name 被改编后的值 ：" +  context.getBean(Config.class).getName());
 	}
