@@ -6,13 +6,14 @@ import java.util.logging.Logger;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.scheduling.support.ScheduledMethodRunnable;
 
 @Configuration
 @EnableScheduling
 public class ScheduleService {
 
 	long prefix = System.currentTimeMillis();
-
+	ScheduledMethodRunnable r;
 	@Scheduled(cron = "*/10 * * * * *")
 	public void doTask() {
 		long now = System.currentTimeMillis();
