@@ -12,6 +12,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 public class ScheduleService {
 
 	long prefix = System.currentTimeMillis();
+
 	@Scheduled(cron = "*/10 * * * * *")
 	public void doTask() {
 		long now = System.currentTimeMillis();
@@ -19,8 +20,8 @@ public class ScheduleService {
 		Logger.getGlobal().info("测试日志输出");
 		Logger logger = Logger.getLogger("JUL");
 		logger.setLevel(Level.INFO);
-		logger.info("dotask ....." + ( prefix - (now))/1000);
+		logger.info("dotask ....." + (prefix - (now)) / 1000);
 		prefix = now;
-	
+
 	}
 }
