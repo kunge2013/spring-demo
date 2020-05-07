@@ -69,6 +69,11 @@ class ReschedulingRunnable extends DelegatingErrorHandlingRunnable implements Sc
 	}
 
 
+	/**
+	 * @descriple 将任务丢到定时执行任务的线程池中，计算下次执行任务的时间, 将任务丢到线程池中,此处一直通过run方法循环调用，达到把任务丢进定时线程池的效果
+	 * 
+	 * @return
+	 */
 	@Nullable
 	public ScheduledFuture<?> schedule() {
 		synchronized (this.triggerContextMonitor) {
@@ -77,6 +82,7 @@ class ReschedulingRunnable extends DelegatingErrorHandlingRunnable implements Sc
 				return null;
 			}
 			long initialDelay = this.scheduledExecutionTime.getTime() - System.currentTimeMillis();
+			// 将任务丢到线程池中,此处一直通过run方法循环调用，达到把任务丢进定时线程池的效果
 			this.currentFuture = this.executor.schedule(this, initialDelay, TimeUnit.MILLISECONDS);
 			return this;
 		}
@@ -87,6 +93,9 @@ class ReschedulingRunnable extends DelegatingErrorHandlingRunnable implements Sc
 		return this.currentFuture;
 	}
 
+	/**
+	 * @descriple 执行当前本次任务 ， 添加下次执行的时间任务 
+	 */
 	@Override
 	public void run() {
 		Date actualExecutionTime = new Date();
@@ -96,6 +105,7 @@ class ReschedulingRunnable extends DelegatingErrorHandlingRunnable implements Sc
 			Assert.state(this.scheduledExecutionTime != null, "No scheduled execution");
 			this.triggerContext.update(this.scheduledExecutionTime, actualExecutionTime, completionTime);
 			if (!obtainCurrentFuture().isCancelled()) {
+				//TODO  添加下次执行的时间任务 
 				schedule();
 			}
 		}
